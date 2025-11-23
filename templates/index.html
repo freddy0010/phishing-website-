@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Website Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>🔍 Phishing Detector</h2>
+        <p class="subtitle">Enter a URL to check if it's a legitimate or phishing website</p>
+        
+        <form action="/predict" method="post">
+            <div class="input-group">
+                <input type="text" name="url" placeholder="Enter URL (e.g., https://example.com)" required>
+                <button type="submit">Analyze URL</button>
+            </div>
+        </form>
+
+        {% if prediction %}
+            <div class="result {{ 'legitimate' if prediction == 'Legitimate Website' else 'phishing' }}">
+                <div class="icon"></div>
+                <h3>Analysis Result</h3>
+                <div class="url">{{ url }}</div>
+                <div class="status">{{ prediction }}</div>
+                {% if prediction == 'Legitimate Website' %}
+                    <p>This URL appears to be safe based on our analysis.</p>
+                {% else %}
+                    <p>⚠️ Warning: This URL shows characteristics of a phishing website. Exercise caution!</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <div class="security-tips">
+            <h4>🛡️ Security Tips</h4>
+            <ul>
+                <li>Always check the URL carefully before entering personal information</li>
+                <li>Look for HTTPS (secure) connections when entering sensitive data</li>
+                <li>Be wary of URLs with suspicious domains or IP addresses</li>
+                <li>Avoid clicking on links in suspicious emails</li>
+                <li>When in doubt, navigate to the official website directly</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
